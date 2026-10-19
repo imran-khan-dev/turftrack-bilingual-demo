@@ -1,0 +1,25 @@
+"use client";
+
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect } from "react";
+import { toast } from "sonner";
+import { useTranslations } from "next-intl";
+
+const LoginSuccessToast = () => {
+  const t = useTranslations("auth");
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (searchParams.get("loggedIn") === "true") {
+      toast.success(t("you.have.been.logged.in.successfully"));
+
+      const newUrl = new URL(window.location.href);
+      newUrl.searchParams.delete("loggedIn");
+      router.replace(newUrl.toString());
+    }
+  }, [searchParams, router]);
+  return null;
+};
+
+export default LoginSuccessToast;
